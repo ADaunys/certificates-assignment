@@ -1,0 +1,28 @@
+<h1>Pricing Plans</h1>
+<p>Recommended plans (price between 100 and 200)</p>
+
+@if (loading) {
+  <p>Loading pricing plans...</p>
+}
+
+@if (error) {
+  <div class="alert alert-danger">{{ error }}</div>
+}
+
+@if (!loading && !error) {
+  <div class="plans-container">
+    @for (plan of plans; track plan.id) {
+      <div class="card plan-card">
+        <div class="card-body">
+          <p class="card-text text-muted plan-path">{{ plan.fullPath }}</p>
+          <h5 class="card-title">{{ plan.name }}</h5>
+          <p class="card-text plan-price">{{ plan.price | currency }}</p>
+        </div>
+      </div>
+    }
+  </div>
+
+  @if (plans.length === 0) {
+    <p>No recommended plans found in the selected price range.</p>
+  }
+}

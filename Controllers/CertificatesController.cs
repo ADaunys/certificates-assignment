@@ -1,5 +1,6 @@
 ﻿using InsuranceCertificates.Data;
 using InsuranceCertificates.Models;
+using InsuranceCertificates.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -10,10 +11,12 @@ namespace InsuranceCertificates.Controllers;
 public class CertificatesController : ControllerBase
 {
     private readonly AppDbContext _appDbContext;
+    private readonly ICertificateService _certificateService;
 
-    public CertificatesController(AppDbContext appDbContext)
+    public CertificatesController(AppDbContext appDbContext, ICertificateService certificateService)
     {
         _appDbContext = appDbContext;
+        _certificateService = certificateService;
     }
 
     [HttpGet]
@@ -34,8 +37,15 @@ public class CertificatesController : ControllerBase
     }
 
     [HttpPost]
-    public IActionResult Create()
+    public async Task<IActionResult> Create([FromBody] CreateCertificateRequest request)
     {
-        return Ok();
+        var result = await _certificateService.CreateCertificateAsync(request);
+
+        if (!result.IsSuccess)
+        {
+            return BadRequest(new { error = result.ErrorMessage });
+        }
+
+        return Ok(result.Certificate);
     }
 }

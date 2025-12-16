@@ -19,7 +19,37 @@
         class="navbar-collapse collapse d-sm-inline-flex justify-content-end"
         [ngClass]="{ show: isExpanded }"
       >
-        <ul class="navbar-nav flex-grow"></ul>
+        <ul class="navbar-nav flex-grow">
+          <li class="nav-item">
+            <a class="nav-link" [routerLink]="['/']" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Certificates</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" [routerLink]="['/claims']" routerLinkActive="active">Claims</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" [routerLink]="['/pricing-plans']" routerLinkActive="active">Pricing plans</a>
+          </li>
+          <li class="nav-item dropdown">
+            <a
+              class="nav-link dropdown-toggle"
+              href="#"
+              role="button"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+              (click)="toggleReportsDropdown($event)"
+            >
+              Reports
+            </a>
+            <ul class="dropdown-menu" [ngClass]="{ show: isReportsDropdownOpen }">
+              <li>
+                <a class="dropdown-item" [routerLink]="['/reports/sales']" routerLinkActive="active" (click)="closeReportsDropdown()">Sales reports</a>
+              </li>
+              <li>
+                <a class="dropdown-item" [routerLink]="['/reports/claims']" routerLinkActive="active" (click)="closeReportsDropdown()">Claims reports</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
       </div>
     </div>
   </nav>
